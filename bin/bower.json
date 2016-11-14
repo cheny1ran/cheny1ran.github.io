@@ -1,13 +1,8 @@
 {
-  "name": "chalk",
-  "dependencies": {
-    "jquery": "~3.1.1",
-    "fluidbox": "~2.0.4",
-    "scrollreveal": "~3.3.2"
-  },
-  "homepage": "https://ewnit.github.io",
+  "name": "bin",
+  "homepage": "https://github.com/ewnit/chalk",
   "authors": [
-    "ewnit <megu568@qq.com>"
+    "verlen <megu568@qq.com>"
   ],
   "description": "",
   "main": "",

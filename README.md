@@ -1,3 +1,11 @@
+#### 新增
+
+* 新增多说评论
+* 新增社交图标处的about me
+* 修改了图片目录结构
+
+_____
+
 ![](_assets/images/documentation/chalk-intro@2x.png)
 
 Chalk is a high quality, completely customisable, performant and 100% free blog template for Jekyll.
