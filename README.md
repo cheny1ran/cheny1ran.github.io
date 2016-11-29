@@ -4,7 +4,6 @@
 * 新增社交图标处的about me
 * 修改了图片目录结构
 
-
 _____
 
 ![](_assets/images/documentation/chalk-intro@2x.png)
