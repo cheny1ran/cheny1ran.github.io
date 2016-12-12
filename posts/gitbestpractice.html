@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>ewnit | git 最佳实践</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="git 最佳实践">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="/posts/gitbestpractice">
+  <meta property="og:description" content="">
+  <meta property="og:site_name" content="ewnit">
+  <meta property="og:image" content="/assets/og-image.jpg">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:url" content="/posts/gitbestpractice">
+  <meta name="twitter:title" content="git 最佳实践">
+  <meta name="twitter:description" content="">
+  <meta name="twitter:image" content="/assets/og-image.jpg">
+
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link href="feed.xml" type="application/rss+xml" rel="alternate" title="ewnit Last 10 blog posts" />
+
+  
+    <link type="text/css" rel="stylesheet" href="/assets/light.css">
+  
+</head>
+
+<body>
+  <main role="main">
+    <div class="grid grid-centered">
+      <div class="grid-cell">
+        <nav class="header-nav reveal">
+  <a href="/" class="header-logo" title="ewnit">ewnit</a>
+  <ul class="header-links">
+    <li>
+        <a href="/about" title="About me">
+          <span class="icon icon-android-happy"></span>
+        </a>
+      </li>
+    
+    
+    
+      <li>
+        <a href="https://github.com/ewnit" target="_blank" title="GitHub">
+          <span class="icon icon-social-github"></span>
+        </a>
+      </li>
+    
+    
+    
+    
+    
+      <li>
+        <a href="mailto:chenyr626@gmail.com" target="_blank" title="Email">
+          <span class="icon icon-at"></span>
+        </a>
+      </li>
+    
+    
+      <li>
+        <a href="/feed.xml" target="_blank" title="RSS">
+          <span class="icon icon-social-rss"></span>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+        <article class="article reveal">
+          <header class="article-header">
+            <h1>git 最佳实践</h1>
+            <p></p>
+            <div class="article-list-footer">
+              <span class="article-list-date">
+                November 26, 2016
+              </span>
+              <span class="article-list-divider">-</span>
+              <span class="article-list-minutes">
+                
+                
+                  1 minute read
+                
+              </span>
+              <span class="article-list-divider">-</span>
+              <div class="article-list-tags">
+                
+                  <a href="/tag/git">git</a>
+                
+                  <a href="/tag/vcs">vcs</a>
+                
+              </div>
+            </div>
+          </header>
+
+          <div class="article-content">
+            <h5 id="section">基本操作</h5>
+<div class="highlighter-rouge"><pre class="highlight"><code>* git config --global user.name "xxxxx"  
+* git config --global user.email "xxxxxxxx@xxxx.com"   
+* git init  
+* git remote add origin [项目地址(.git/https)]  
+* git add .  
+* git commit -m "提交说明"  
+* git push -u origin master  
+</code></pre>
+</div>
+
+<h5 id="section-1">查看当前更新和提交状态</h5>
+<div class="highlighter-rouge"><pre class="highlight"><code>* git status  
+</code></pre>
+</div>
+
+<h5 id="section-2">查看本次提交与源代码的区别</h5>
+<div class="highlighter-rouge"><pre class="highlight"><code>* git diff
+</code></pre>
+</div>
+<h5 id="reinit-git">ReInit git项目</h5>
+<div class="highlighter-rouge"><pre class="highlight"><code>* rm -rf git
+* git init
+</code></pre>
+</div>
+
+<h5 id="i">修改最后一次i提交</h5>
+<div class="highlighter-rouge"><pre class="highlight"><code>* git commit --amend
+</code></pre>
+</div>
+<h5 id="section-3">切换分支</h5>
+<div class="highlighter-rouge"><pre class="highlight"><code>* git checkout [分支名]
+</code></pre>
+</div>
+<h5 id="section-4">回滚到之前的版本</h5>
+<p>注意 reset 是很暴力的，删除回滚那个版本之后的commit，HEAD 向后移动。<br />
+而 revert 是用一次新的提交来回滚版本，HEAD 一直保持向前。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>* git reset --hard [版本号]
+* git revert [版本号]
+</code></pre>
+</div>
+
+<h5 id="section-5">将本次未提交的变动加入暂存区</h5>
+<div class="highlighter-rouge"><pre class="highlight"><code>* git stash
+</code></pre>
+</div>
+
+<h3 id="github--gitlab-ssh-key">场景一：在一台主机上同时使用 github 和公司的 gitlab 同时管理多个ssh key</h3>
+
+<blockquote>
+  <p>原文地址 http://xuyuan923.github.io/2014/11/04/github-gitlab-ssh/</p>
+</blockquote>
+
+<p>在.ssh目录下新建一个config文件配置一下，就能解决gitlab与github的ssh key的冲突。</p>
+<h5 id="ssh-key">生成并添加第一个ssh key</h5>
+<div class="highlighter-rouge"><pre class="highlight"><code>* cd ~/.ssh
+* ssh  ssh-keygen -t ras -C "youremail@yourcompany.com"
+</code></pre>
+</div>
+
+<p>这时可以一路回车，不输入任何字符，将自动生成id_rsa和id_rsa.pub文件。</p>
+<h5 id="ssh-key-1">生成并添加第二个ssh key</h5>
+<div class="highlighter-rouge"><pre class="highlight"><code>* ssh-keygen -t rsa -C "youremail@gmail.com"
+</code></pre>
+</div>
+<p>注意，这时不能一路回车，否则邮箱将覆盖上一次生成的ssh key，给这个文件起一个名字，比如叫 <code class="highlighter-rouge">id_rsa_github</code>，所以相应的也会生成一个 <code class="highlighter-rouge">id_rsa_github.pub</code> 文件。</p>
+
+<p>此时查看.ssh下的目录文件，发现多了<code class="highlighter-rouge">id_rsa_github</code>和<code class="highlighter-rouge">id_rsa_github.pub</code>两个文件。</p>
+
+<h5 id="section-6">添加私钥</h5>
+<div class="highlighter-rouge"><pre class="highlight"><code>* ssh-add ~/.ssh/id_rsa
+* ssh-add ~/.ssh/id_rsa_github
+</code></pre>
+</div>
+<h5 id="section-7">修改配置文件</h5>
+<p>在 ~/.ssh 目录下新建一个config文件，并添加内容。</p>
+
+<p>```</p>
+<ul>
+  <li>touch config
+    <h1 id="gitlab">gitlab</h1>
+    <p>Host gitlab.com
+  HostName gitlab.com
+  PreferredAuthentications publickey
+  IdentityFile ~/.ssh/id_rsa</p>
+    <h1 id="github">github</h1>
+    <p>Host github.com
+  HostName github.com
+  PreferredAuthentications publickey
+  IdentityFile ~/.ssh/id_rsa_github
+ ```</p>
+  </li>
+</ul>
+
+<h5 id="githubgitlab--ssh-key">给 github/gitlab 上添加 ssh key</h5>
+<p>查看 ssh key 执行<code class="highlighter-rouge">cat id_rsa_github.pub</code>内容，将文本内容拷贝到https://github.com/settings/ssh。<br />
+生成ssh key的方法可以去看官方教程，这里不再赘述。</p>
+
+          </div>
+
+          <div class="article-share">
+            
+            <a href="" title="Share on Twitter" onclick="window.open('https://twitter.com/home?status=git 最佳实践 - /posts/gitbestpractice ', 'newwindow', 'width=500, height=225'); return false;">
+              <span class="icon icon-social-twitter"></span>
+            </a>
+            <a href="" title="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=/posts/gitbestpractice', 'newwindow', 'width=500, height=500'); return false;">
+              <span class="icon icon-social-facebook"></span>
+            </a>
+            <a href="" title="Share on Google+" onclick="window.open('https://plus.google.com/share?url=/posts/gitbestpractice', 'newwindow', 'width=550, height=400'); return false;">
+              <span class="icon icon-social-googleplus"></span>
+            </a>
+          </div>
+
+          
+          <div class="ds-thread" data-thread-key="/posts/GitBestPractice" data-title="git 最佳实践" data-url="/posts/gitbestpractice"></div>
+            <script type="text/javascript">
+          var duoshuoQuery = {short_name:'ewnit'};
+            (function() {
+              var ds = document.createElement('script');
+              ds.type = 'text/javascript';ds.async = true;
+              ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+              ds.charset = 'UTF-8';
+              (document.getElementsByTagName('head')[0] 
+               || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+            </script>
+            <noscript>Please enable JavaScript to view the comments powered by duoshuo.</noscript>
+          
+        </article>
+        <footer class="footer reveal">
+  <p>
+  	Thanks for visiting~ XD
+  </p>
+  <p>
+    blog template for Jekyll built by
+    <a href="https://github.com/nielsenramon/chalk" target="_blank" title="Download Chalk">Nielsen Ramon</a>. This blog is maitain by <a href="/about" title="About me">ewnit</a>.
+  </p>
+</footer>
+
+      </div>
+    </div>
+  </main>
+  <script type="text/javascript" src="/assets/vendor.js"></script>
+<script type="text/javascript" src="/assets/application.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+<script>
+  WebFont.load({
+    google: {
+      families: ['Cormorant Garamond:700', 'Lato:300,400,700']
+    }
+  });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>ewnit | 在VirtualBox上安装xp虚拟机</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="在VirtualBox上安装xp虚拟机">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="/posts/installxponvirtualbox">
+  <meta property="og:description" content="">
+  <meta property="og:site_name" content="ewnit">
+  <meta property="og:image" content="/assets/og-image.jpg">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:url" content="/posts/installxponvirtualbox">
+  <meta name="twitter:title" content="在VirtualBox上安装xp虚拟机">
+  <meta name="twitter:description" content="">
+  <meta name="twitter:image" content="/assets/og-image.jpg">
+
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link href="feed.xml" type="application/rss+xml" rel="alternate" title="ewnit Last 10 blog posts" />
+
+  
+    <link type="text/css" rel="stylesheet" href="/assets/light.css">
+  
+</head>
+
+<body>
+  <main role="main">
+    <div class="grid grid-centered">
+      <div class="grid-cell">
+        <nav class="header-nav reveal">
+  <a href="/" class="header-logo" title="ewnit">ewnit</a>
+  <ul class="header-links">
+    <li>
+        <a href="/about" title="About me">
+          <span class="icon icon-android-happy"></span>
+        </a>
+      </li>
+    
+    
+    
+      <li>
+        <a href="https://github.com/ewnit" target="_blank" title="GitHub">
+          <span class="icon icon-social-github"></span>
+        </a>
+      </li>
+    
+    
+    
+    
+    
+      <li>
+        <a href="mailto:chenyr626@gmail.com" target="_blank" title="Email">
+          <span class="icon icon-at"></span>
+        </a>
+      </li>
+    
+    
+      <li>
+        <a href="/feed.xml" target="_blank" title="RSS">
+          <span class="icon icon-social-rss"></span>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+        <article class="article reveal">
+          <header class="article-header">
+            <h1>在VirtualBox上安装xp虚拟机</h1>
+            <p></p>
+            <div class="article-list-footer">
+              <span class="article-list-date">
+                December 27, 2015
+              </span>
+              <span class="article-list-divider">-</span>
+              <span class="article-list-minutes">
+                
+                
+                  1 minute read
+                
+              </span>
+              <span class="article-list-divider">-</span>
+              <div class="article-list-tags">
+                
+                  <a href="/tag/装机">装机</a>
+                
+                  <a href="/tag/虚拟机">虚拟机</a>
+                
+              </div>
+            </div>
+          </header>
+
+          <div class="article-content">
+            <p>之前一直尝试安装xp虚拟机，安装msdn上面的xp镜像，试用期过了以后就要输序列号来激活，网上找了一圈一个个序列号试过来也是蛮蛋痛的。</p>
+
+<p>后来尝试过深度或者ghost xp，不知道我这电脑什么毛病，反正一直没法安装。</p>
+
+<p>今天找到了微软官方放出的福利，原本为了前端IE调试做出的windows全系列虚拟机镜像。</p>
+
+<blockquote>
+  <p>传送门
+<a href="https://dev.windows.com/en-us/microsoft-edge/tools/vms/windows/">https://dev.windows.com/en-us/microsoft-edge/tools/vms/windows/</a></p>
+</blockquote>
+
+<p><img src="/media/pic/15/12-27-1.jpg" alt="" /></p>
+
+<p>选择系统版本及虚拟机版本后就可以下载压缩包了。</p>
+
+<p>本次安装选择的是IE8 on XP+Virtual Box，安装包大概1个G，安装完解压后是一个ova格式的文件。</p>
+
+<p><img src="/media/pic/15/12-27-3.jpg" alt="" /></p>
+
+<p>打开VirtualBox控制台，选择 <strong>管理-&gt;导入虚拟电脑</strong>，选择下载好的ova文件，等待完成。</p>
+
+<p><img src="/media/pic/15/12-27-4.jpg" alt="" /></p>
+
+<p><img src="/media/pic/15/12-27-5.jpg" alt="" /></p>
+
+<p>这样整个过程就完成啦:-)</p>
+
+<p><img src="/media/pic/15/12-27-2.jpg" alt="" /></p>
+
+<p>默认的桌面会教你各种系统下的激活方法，英语渣就不翻译了。截一下本机会用到的：</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>Win8.1系统在联网激活后可以用免费使用三个月，之后可以运行“slmgr.vbs /rearm”命令重新激活继续延长使用期限。[参考][1]
+</code></pre>
+</div>
+
+
+          </div>
+
+          <div class="article-share">
+            
+            <a href="" title="Share on Twitter" onclick="window.open('https://twitter.com/home?status=在VirtualBox上安装xp虚拟机 - /posts/installxponvirtualbox ', 'newwindow', 'width=500, height=225'); return false;">
+              <span class="icon icon-social-twitter"></span>
+            </a>
+            <a href="" title="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=/posts/installxponvirtualbox', 'newwindow', 'width=500, height=500'); return false;">
+              <span class="icon icon-social-facebook"></span>
+            </a>
+            <a href="" title="Share on Google+" onclick="window.open('https://plus.google.com/share?url=/posts/installxponvirtualbox', 'newwindow', 'width=550, height=400'); return false;">
+              <span class="icon icon-social-googleplus"></span>
+            </a>
+          </div>
+
+          
+          <div class="ds-thread" data-thread-key="/posts/installXpOnVirtualBox" data-title="在VirtualBox上安装xp虚拟机" data-url="/posts/installxponvirtualbox"></div>
+            <script type="text/javascript">
+          var duoshuoQuery = {short_name:'ewnit'};
+            (function() {
+              var ds = document.createElement('script');
+              ds.type = 'text/javascript';ds.async = true;
+              ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+              ds.charset = 'UTF-8';
+              (document.getElementsByTagName('head')[0] 
+               || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+            </script>
+            <noscript>Please enable JavaScript to view the comments powered by duoshuo.</noscript>
+          
+        </article>
+        <footer class="footer reveal">
+  <p>
+  	Thanks for visiting~ XD
+  </p>
+  <p>
+    blog template for Jekyll built by
+    <a href="https://github.com/nielsenramon/chalk" target="_blank" title="Download Chalk">Nielsen Ramon</a>. This blog is maitain by <a href="/about" title="About me">ewnit</a>.
+  </p>
+</footer>
+
+      </div>
+    </div>
+  </main>
+  <script type="text/javascript" src="/assets/vendor.js"></script>
+<script type="text/javascript" src="/assets/application.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+<script>
+  WebFont.load({
+    google: {
+      families: ['Cormorant Garamond:700', 'Lato:300,400,700']
+    }
+  });
+</script>
+
+
+</body>
+</html>

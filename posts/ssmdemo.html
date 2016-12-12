@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>ewnit | SSM框架理解</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="SSM框架理解">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="/posts/ssmdemo">
+  <meta property="og:description" content="">
+  <meta property="og:site_name" content="ewnit">
+  <meta property="og:image" content="/assets/og-image.jpg">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:url" content="/posts/ssmdemo">
+  <meta name="twitter:title" content="SSM框架理解">
+  <meta name="twitter:description" content="">
+  <meta name="twitter:image" content="/assets/og-image.jpg">
+
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link href="feed.xml" type="application/rss+xml" rel="alternate" title="ewnit Last 10 blog posts" />
+
+  
+    <link type="text/css" rel="stylesheet" href="/assets/light.css">
+  
+</head>
+
+<body>
+  <main role="main">
+    <div class="grid grid-centered">
+      <div class="grid-cell">
+        <nav class="header-nav reveal">
+  <a href="/" class="header-logo" title="ewnit">ewnit</a>
+  <ul class="header-links">
+    <li>
+        <a href="/about" title="About me">
+          <span class="icon icon-android-happy"></span>
+        </a>
+      </li>
+    
+    
+    
+      <li>
+        <a href="https://github.com/ewnit" target="_blank" title="GitHub">
+          <span class="icon icon-social-github"></span>
+        </a>
+      </li>
+    
+    
+    
+    
+    
+      <li>
+        <a href="mailto:chenyr626@gmail.com" target="_blank" title="Email">
+          <span class="icon icon-at"></span>
+        </a>
+      </li>
+    
+    
+      <li>
+        <a href="/feed.xml" target="_blank" title="RSS">
+          <span class="icon icon-social-rss"></span>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+        <article class="article reveal">
+          <header class="article-header">
+            <h1>SSM框架理解</h1>
+            <p></p>
+            <div class="article-list-footer">
+              <span class="article-list-date">
+                April 3, 2016
+              </span>
+              <span class="article-list-divider">-</span>
+              <span class="article-list-minutes">
+                
+                
+                  5 minute read
+                
+              </span>
+              <span class="article-list-divider">-</span>
+              <div class="article-list-tags">
+                
+                  <a href="/tag/MVC框架">MVC框架</a>
+                
+                  <a href="/tag/JavaWeb">JavaWeb</a>
+                
+              </div>
+            </div>
+          </header>
+
+          <div class="article-content">
+            <blockquote>
+  <p>最近两星期一直在学JavaEE的MVC框架，因为之前学校开的JavaEE课程就一直学的吊儿郎当的，所以现在真正需要掌握就非常手忙脚乱，在此记录下这段时间学习的感悟，如有错误，希望大牛毫不客气地指出。</p>
+</blockquote>
+
+<h2 id="spring">Spring</h2>
+<p>Spring就像是整个项目中装配bean的大工厂，在配置文件中可以指定使用特定的参数去调用实体类的构造方法来实例化对象。
+Spring的核心思想是IoC（控制反转），即不再需要程序员去显式地<code class="highlighter-rouge">new</code>一个对象，而是让Spring框架帮你来完成这一切。</p>
+
+<h2 id="springmvc">SpringMVC</h2>
+<p>SpringMVC在项目中拦截用户请求，它的核心Servlet即DispatcherServlet承担中介或是前台这样的职责，将用户请求通过HandlerMapping去匹配Controller，Controller就是具体对应请求所执行的操作。SpringMVC相当于SSH框架中struts。</p>
+
+<h2 id="mybatis">mybatis</h2>
+<p>mybatis是对jdbc的封装，它让数据库底层操作变的透明。mybatis的操作都是围绕一个sqlSessionFactory实例展开的。mybatis通过配置文件关联到各实体类的Mapper文件，Mapper文件中配置了每个类对数据库所需进行的sql语句映射。在每次与数据库交互时，通过sqlSessionFactory拿到一个sqlSession，再执行sql命令。</p>
+
+<h2 id="ssm">SSM框架整合</h2>
+<p>要让几个框架相互配合，配置文件怎么写，项目的目录结构怎么设计对我这样一个新手来说实在很头疼。
+目前我也只刚刚写过一个用户登录的demo，在此记录一下。</p>
+
+<h3 id="section">项目目录结构</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>－LoginDemo
+	－src
+		－项目主包
+			－controller
+			－mapper
+			－entity
+			－service
+	－web
+		－WEB-INF
+			－log4j.properties
+			－spring-mybatis.xml
+			－springMVC-config.xml
+			－web.xml
+		－index.jsp
+	－pom.xml
+</code></pre>
+</div>
+
+<h3 id="section-1">需要引入的包</h3>
+<h4 id="pomxml">pom.xml</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"&gt;
+
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;name&gt;LoginDemo&lt;/name&gt;
+    &lt;groupId&gt;com.cyan&lt;/groupId&gt;
+    &lt;artifactId&gt;ssm&lt;/artifactId&gt;
+    &lt;packaging&gt;war&lt;/packaging&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;url&gt;http://maven.apache.org&lt;/url&gt;
+
+
+    &lt;build&gt;
+        &lt;finalName&gt;ssm&lt;/finalName&gt;
+        &lt;plugins&gt;
+            &lt;!--mybatis 逆向工程插件--&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.mybatis.generator&lt;/groupId&gt;
+                &lt;artifactId&gt;mybatis-generator-maven-plugin&lt;/artifactId&gt;
+                &lt;version&gt;1.3.2&lt;/version&gt;
+                &lt;configuration&gt;
+                    &lt;verbose&gt;true&lt;/verbose&gt;
+                    &lt;overwrite&gt;true&lt;/overwrite&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+                &lt;configuration&gt;
+                    &lt;source&gt;1.6&lt;/source&gt;
+                    &lt;target&gt;1.6&lt;/target&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+
+
+    &lt;properties&gt;
+        &lt;spring.version&gt;4.1.1.RELEASE&lt;/spring.version&gt;
+    &lt;/properties&gt;
+
+
+
+    &lt;dependencies&gt;
+        &lt;!-- springframe start --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-core&lt;/artifactId&gt;
+            &lt;version&gt;${spring.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-web&lt;/artifactId&gt;
+            &lt;version&gt;${spring.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-oxm&lt;/artifactId&gt;
+            &lt;version&gt;${spring.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-tx&lt;/artifactId&gt;
+            &lt;version&gt;${spring.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;
+            &lt;version&gt;${spring.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;
+            &lt;version&gt;${spring.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-aop&lt;/artifactId&gt;
+            &lt;version&gt;${spring.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-context-support&lt;/artifactId&gt;
+            &lt;version&gt;${spring.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-test&lt;/artifactId&gt;
+            &lt;version&gt;${spring.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;!-- springframe end --&gt;
+
+        &lt;!--aspectj start--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
+            &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;
+            &lt;version&gt;1.8.6&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
+            &lt;artifactId&gt;aspectjrt&lt;/artifactId&gt;
+            &lt;version&gt;1.8.6&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;!--aspectj end--&gt;
+
+        &lt;!--c3p0--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;com.mchange&lt;/groupId&gt;
+            &lt;artifactId&gt;c3p0&lt;/artifactId&gt;
+            &lt;version&gt;0.9.5.1&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;!--servlet/jsp api start--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+            &lt;artifactId&gt;servlet-api&lt;/artifactId&gt;
+            &lt;version&gt;2.5&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;javax.servlet.jsp&lt;/groupId&gt;
+            &lt;artifactId&gt;jsp-api&lt;/artifactId&gt;
+            &lt;version&gt;2.1&lt;/version&gt;
+            &lt;scope&gt;provided&lt;/scope&gt;
+        &lt;/dependency&gt;
+        &lt;!--servlet/jsp api end--&gt;
+
+        &lt;!--junit4--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;4.11&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+
+        &lt;!--mybatis--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+            &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+            &lt;version&gt;3.3.0&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;!--mybatis spring整合--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+            &lt;artifactId&gt;mybatis-spring&lt;/artifactId&gt;
+            &lt;version&gt;1.2.3&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;!--mysql driver--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;mysql&lt;/groupId&gt;
+            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+            &lt;version&gt;5.1.6&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;!--jstl--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;jstl&lt;/groupId&gt;
+            &lt;artifactId&gt;jstl&lt;/artifactId&gt;
+            &lt;version&gt;1.2&lt;/version&gt;
+        &lt;/dependency&gt;
+
+    &lt;/dependencies&gt;
+&lt;/project&gt;
+</code></pre>
+</div>
+
+<h3 id="section-2">配置文件</h3>
+<h4 id="webxml">web.xml</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;web-app</span> <span class="na">xmlns=</span><span class="s">"http://xmlns.jcp.org/xml/ns/javaee"</span>
+         <span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+         <span class="na">xsi:schemaLocation=</span><span class="s">"http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"</span>
+         <span class="na">version=</span><span class="s">"3.1"</span><span class="nt">&gt;</span>
+
+    <span class="c">&lt;!-- Spring ApplicationContext 载入 --&gt;</span>
+    <span class="nt">&lt;listener&gt;</span>
+        <span class="nt">&lt;listener-class&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="nt">&lt;/listener-class&gt;</span>
+    <span class="nt">&lt;/listener&gt;</span>
+
+    <span class="c">&lt;!-- SpringMVC核心Servlet --&gt;</span>
+    <span class="nt">&lt;servlet&gt;</span>
+        <span class="nt">&lt;servlet-name&gt;</span>springMVC-config<span class="nt">&lt;/servlet-name&gt;</span>
+        <span class="nt">&lt;servlet-class&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="nt">&lt;/servlet-class&gt;</span>
+        <span class="nt">&lt;init-param&gt;</span>
+            <span class="nt">&lt;param-name&gt;</span>contextConfigLocation<span class="nt">&lt;/param-name&gt;</span>
+            <span class="nt">&lt;param-value&gt;</span>classpath:/WEB-INF/springMVC-config.xml<span class="nt">&lt;/param-value&gt;</span>
+        <span class="nt">&lt;/init-param&gt;</span>
+    <span class="nt">&lt;/servlet&gt;</span>
+    
+    <span class="c">&lt;!-- 拦截所有请求 --&gt;</span>
+    <span class="nt">&lt;servlet-mapping&gt;</span>
+        <span class="nt">&lt;servlet-name&gt;</span>springMVC-config<span class="nt">&lt;/servlet-name&gt;</span>
+        <span class="nt">&lt;url-pattern&gt;</span>/<span class="nt">&lt;/url-pattern&gt;</span>
+    <span class="nt">&lt;/servlet-mapping&gt;</span>
+
+    <span class="c">&lt;!-- spring配置文件加载 --&gt;</span>
+    <span class="nt">&lt;context-param&gt;</span>
+        <span class="nt">&lt;param-name&gt;</span>contextConfigLocation<span class="nt">&lt;/param-name&gt;</span>
+        <span class="nt">&lt;param-value&gt;</span>classpath:WEB-INF/spring-mybatis.xml<span class="nt">&lt;/param-value&gt;</span>
+    <span class="nt">&lt;/context-param&gt;</span>
+
+<span class="nt">&lt;/web-app&gt;</span>
+</code></pre>
+</div>
+<h4 id="spring-mybatisxml">spring-mybatis.xml</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;beans</span> <span class="na">xmlns=</span><span class="s">"http://www.springframework.org/schema/beans"</span>
+       <span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+       <span class="na">xmlns:p=</span><span class="s">"http://www.springframework.org/schema/p"</span>
+       <span class="na">xmlns:context=</span><span class="s">"http://www.springframework.org/schema/context"</span>
+       <span class="na">xmlns:tx=</span><span class="s">"http://www.springframework.org/schema/tx"</span> <span class="na">xmlns:aop=</span><span class="s">"http://www.springframework.org/schema/aop"</span>
+       <span class="na">xsi:schemaLocation=</span><span class="s">"http://www.springframework.org/schema/beans</span>
+        <span class="err">http://www.springframework.org/schema/beans/spring-beans-3.2.xsd</span>
+        <span class="err">http://www.springframework.org/schema/context</span>
+        <span class="err">http://www.springframework.org/schema/context/spring-context-3.2.xsd</span>
+        <span class="err">http://www.springframework.org/schema/tx</span>
+        <span class="err">http://www.springframework.org/schema/tx/spring-tx-3.2.xsd</span> <span class="err">http://www.springframework.org/schema/aop</span> <span class="err">http://www.springframework.org/schema/aop/spring-aop.xsd"</span><span class="nt">&gt;</span>
+
+    <span class="c">&lt;!-- 自动搜索bean --&gt;</span>
+    <span class="nt">&lt;context:annotation-config/&gt;</span>
+    <span class="nt">&lt;context:component-scan</span> <span class="na">base-package=</span><span class="s">"com.cyan"</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"datasource"</span> <span class="na">class=</span><span class="s">"org.springframework.jdbc.datasource.DriverManagerDataSource"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"driverClassName"</span> <span class="na">value=</span><span class="s">"com.mysql.jdbc.Driver"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"url"</span> <span class="na">value=</span><span class="s">"jdbc:mysql://localhost:3306/Demo"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"username"</span> <span class="na">value=</span><span class="s">"root"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"password"</span> <span class="na">value=</span><span class="s">"2233"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/bean&gt;</span>
+
+    <span class="c">&lt;!-- mybatis核心bean --&gt;</span>
+    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"sqlSessionFactory"</span> <span class="na">class=</span><span class="s">"org.mybatis.spring.SqlSessionFactoryBean"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"dataSource"</span> <span class="na">ref=</span><span class="s">"datasource"</span><span class="nt">/&gt;</span>
+        <span class="c">&lt;!-- 这句配置mapper配置文件的位置 如果采用注解的方式这句可以省去 --&gt;</span>
+        <span class="c">&lt;!--&lt;property name="mapperLocations" value="classpath:/WEB-INF/Mappers/*.xml" /&gt;--&gt;</span>
+    <span class="nt">&lt;/bean&gt;</span>
+
+    <span class="c">&lt;!-- 自动搜索mapper接口 --&gt;</span>
+    <span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"org.mybatis.spring.mapper.MapperScannerConfigurer"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"basePackage"</span> <span class="na">value=</span><span class="s">"com.cyan.Mapper"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/bean&gt;</span>
+
+
+    <span class="c">&lt;!-- 事务处理 --&gt;</span>
+    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"txManager"</span> <span class="na">class=</span><span class="s">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"dataSource"</span> <span class="na">ref=</span><span class="s">"datasource"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/bean&gt;</span>
+
+    <span class="nt">&lt;tx:advice</span> <span class="na">id=</span><span class="s">"txAdvice"</span> <span class="na">transaction-manager=</span><span class="s">"txManager"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;tx:attributes&gt;</span>
+            <span class="nt">&lt;tx:method</span> <span class="na">name=</span><span class="s">"insert*"</span> <span class="na">propagation=</span><span class="s">"REQUIRED"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;tx:method</span> <span class="na">name=</span><span class="s">"delete*"</span> <span class="na">propagation=</span><span class="s">"REQUIRED"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;tx:method</span> <span class="na">name=</span><span class="s">"update*"</span> <span class="na">propagation=</span><span class="s">"REQUIRED"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;tx:method</span> <span class="na">name=</span><span class="s">"select*"</span> <span class="na">propagation=</span><span class="s">"SUPPORTS"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/tx:attributes&gt;</span>
+    <span class="nt">&lt;/tx:advice&gt;</span>
+
+    <span class="nt">&lt;aop:config&gt;</span>
+        <span class="nt">&lt;aop:pointcut</span> <span class="na">id=</span><span class="s">"serviceCut"</span> <span class="na">expression=</span><span class="s">"execution(public * Service.*.*(..))"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;aop:advisor</span> <span class="na">pointcut-ref=</span><span class="s">"serviceCut"</span> <span class="na">advice-ref=</span><span class="s">"txAdvice"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/aop:config&gt;</span>
+
+
+<span class="nt">&lt;/beans&gt;</span>
+</code></pre>
+</div>
+
+<h4 id="springmvc-configxml">springMVC-config.xml</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"&gt;
+
+    &lt;!--spring可以自动去扫描base-pack下面或者子包下面的java文件，
+    如果扫描到有@Component @Controller@Service等这些注解的类，则把这些类注册为bean--&gt;
+    &lt;context:component-scan base-package="com.cyan.Controller"&gt;
+        &lt;context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/&gt;
+        &lt;context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/&gt;
+    &lt;/context:component-scan&gt;
+
+    &lt;mvc:annotation-driven /&gt;
+    &lt;mvc:default-servlet-handler/&gt;
+
+    &lt;!-- 配置jsp文件的前后缀 “／”代表的是项目设定的Resource目录 --&gt;
+    &lt;bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"&gt;
+        &lt;property name="prefix" value="/"/&gt;
+        &lt;property name="suffix" value=".jsp" /&gt;
+    &lt;/bean&gt;
+
+&lt;/beans&gt;
+</code></pre>
+</div>
+<h3 id="section-3">数据库表结构</h3>
+
+<p><img src="/media/pic/16/tableStructure.png" alt="" /></p>
+
+<h3 id="section-4">详细类设计</h3>
+<h4 id="mapper">mapper</h4>
+<h5 id="usermapper">UserMapper</h5>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>package com.cyan.Mapper;
+
+import com.cyan.Model.User;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+/**
+ * Created by cyan on 16/3/29.
+ */
+
+public interface UserMapper {
+    @Select("select * from LoginDemo")
+    public List&lt;User&gt; selectUser();
+    @Select("select * from LoginDemo where username=#{username}")
+    public List&lt;User&gt; selectUserByUsername(@Param("username")String username);
+
+}
+</code></pre>
+</div>
+
+<h4 id="entity">entity</h4>
+
+<p>实体类</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>package com.cyan.Entity;
+
+/**
+ * Created by cyan on 16/3/29.
+ */
+public class User {
+    private int id;
+    private String username,password,slogan;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSlogan() {
+        return slogan;
+    }
+
+    public void setSlogan(String slogan) {
+        this.slogan = slogan;
+    }
+
+}
+</code></pre>
+</div>
+<h4 id="service">service</h4>
+<h5 id="iuserservice">IUserService</h5>
+<div class="highlighter-rouge"><pre class="highlight"><code>package com.cyan.Service;
+
+import com.cyan.Entity.User;
+
+/**
+ * Created by cyan on 16/3/31.
+ */
+public interface IUserService {
+    public User getUserByName(String name);
+    public boolean verify(String username,String pwd);
+}
+
+</code></pre>
+</div>
+
+<h5 id="userservice">UserService</h5>
+
+<p>Spring中的几个标签@Component（声明一个类是Spring容器管理的类，可以细分为后面提到的三个标签）、@Controller（控制层）、@Service（服务层）、@Repository（持久层）。标签的作用是让Spring根据名字关联到这个类。</p>
+
+<p>@Autowired标签默认以byType的形式注入，使用这个标签是不需要getter和setter方法的。（这次代码中因为用户名密码校验部分要用到get方法所以写上了）
+可以配合@Qualifier标签根据bean的id来装配。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>package com.cyan.Service;
+
+import com.cyan.Mapper.UserMapper;
+import com.cyan.Entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ * Created by cyan on 16/3/31.
+ */
+
+@Service("userService")
+public class UserService implements IUserService{
+
+    @Autowired
+    private UserMapper userMapper;
+
+    public void setUserMapper(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
+
+    @Override
+    public User getUserByName(String name) {
+        return userMapper.selectUserByUsername(name).get(0);
+    }
+
+    @Override
+    public boolean verify(String username, String pwd) {
+        if(userMapper.selectUserByUsername(username).get(0).getPassword().equals(pwd))
+            return true;
+        else return false;
+    }
+
+}
+
+</code></pre>
+</div>
+
+<h4 id="controller">controller</h4>
+<h5 id="login">Login</h5>
+<div class="highlighter-rouge"><pre class="highlight"><code>package com.cyan.Controller;
+
+import com.cyan.Service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Created by cyan on 16/3/29.
+ */
+
+@Controller
+public class Login {
+
+    @Autowired
+    private IUserService userService;
+
+    @RequestMapping("/index")
+    public String index(){
+        return "index";
+    }
+
+    @RequestMapping(value ="/login",method = RequestMethod.POST)
+    public String login(HttpServletRequest req, HttpServletResponse resp){
+        String username=req.getParameter("username");
+        String pwd=req.getParameter("password");
+        if(userService.verify(username,pwd)){
+            req.getSession().setAttribute("user",userService.getUserByName(username));
+            return "success";
+        }
+        else return "index";
+
+    }
+}
+</code></pre>
+</div>
+
+<h3 id="jsp">jsp页面</h3>
+<h4 id="indexjsp">index.jsp</h4>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="err">&lt;</span>%--
+  Created by IntelliJ IDEA.
+  User: cyan
+  Date: 16/3/29
+  Time: 15:55
+  To change this template use File | Settings | File Templates.
+--%&gt;
+<span class="err">&lt;</span>%@ page contentType="text/html;charset=UTF-8" language="java" %&gt;
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Login<span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/login"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+      用户名:<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"username"</span> <span class="na">id=</span><span class="s">"username"</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;br&gt;</span>
+      密码:<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">name=</span><span class="s">"password"</span> <span class="na">id=</span><span class="s">"password"</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;br&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"登录"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/form&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+
+</code></pre>
+</div>
+
+<h4 id="successjsp">success.jsp</h4>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="err">&lt;</span>%@ page import="com.cyan.Entity.User" %&gt;<span class="err">&lt;</span>%--
+  Created by IntelliJ IDEA.
+  User: cyan
+  Date: 16/3/31
+  Time: 23:45
+  To change this template use File | Settings | File Templates.
+--%&gt;
+<span class="err">&lt;</span>%@ page contentType="text/html;charset=UTF-8" language="java" %&gt;
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>LoginSuccess<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+登录成功!
+<span class="err">&lt;</span>%
+    User user=(User)session.getAttribute("user");
+%&gt;
+用户名:<span class="err">&lt;</span>%=user.getUsername()%&gt;<span class="nt">&lt;br&gt;</span>
+个性签名:<span class="err">&lt;</span>%=user.getSlogan()%&gt;<span class="nt">&lt;br&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+
+</code></pre>
+</div>
+
+<h3 id="section-5">运行结果</h3>
+
+<p><img src="/media/pic/16/index.png" alt="" />
+<img src="/media/pic/16/success.png" alt="" /></p>
+
+          </div>
+
+          <div class="article-share">
+            
+            <a href="" title="Share on Twitter" onclick="window.open('https://twitter.com/home?status=SSM框架理解 - /posts/ssmdemo ', 'newwindow', 'width=500, height=225'); return false;">
+              <span class="icon icon-social-twitter"></span>
+            </a>
+            <a href="" title="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=/posts/ssmdemo', 'newwindow', 'width=500, height=500'); return false;">
+              <span class="icon icon-social-facebook"></span>
+            </a>
+            <a href="" title="Share on Google+" onclick="window.open('https://plus.google.com/share?url=/posts/ssmdemo', 'newwindow', 'width=550, height=400'); return false;">
+              <span class="icon icon-social-googleplus"></span>
+            </a>
+          </div>
+
+          
+          <div class="ds-thread" data-thread-key="/posts/SSMDemo" data-title="SSM框架理解" data-url="/posts/ssmdemo"></div>
+            <script type="text/javascript">
+          var duoshuoQuery = {short_name:'ewnit'};
+            (function() {
+              var ds = document.createElement('script');
+              ds.type = 'text/javascript';ds.async = true;
+              ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+              ds.charset = 'UTF-8';
+              (document.getElementsByTagName('head')[0] 
+               || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+            </script>
+            <noscript>Please enable JavaScript to view the comments powered by duoshuo.</noscript>
+          
+        </article>
+        <footer class="footer reveal">
+  <p>
+  	Thanks for visiting~ XD
+  </p>
+  <p>
+    blog template for Jekyll built by
+    <a href="https://github.com/nielsenramon/chalk" target="_blank" title="Download Chalk">Nielsen Ramon</a>. This blog is maitain by <a href="/about" title="About me">ewnit</a>.
+  </p>
+</footer>
+
+      </div>
+    </div>
+  </main>
+  <script type="text/javascript" src="/assets/vendor.js"></script>
+<script type="text/javascript" src="/assets/application.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+<script>
+  WebFont.load({
+    google: {
+      families: ['Cormorant Garamond:700', 'Lato:300,400,700']
+    }
+  });
+</script>
+
+
+</body>
+</html>

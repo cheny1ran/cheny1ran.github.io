@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>ewnit | 解决 Kernel driver not installed (rc=-1908)</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="解决 Kernel driver not installed (rc=-1908)">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="/posts/fixvboxproblem">
+  <meta property="og:description" content="">
+  <meta property="og:site_name" content="ewnit">
+  <meta property="og:image" content="/assets/og-image.jpg">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:url" content="/posts/fixvboxproblem">
+  <meta name="twitter:title" content="解决 Kernel driver not installed (rc=-1908)">
+  <meta name="twitter:description" content="">
+  <meta name="twitter:image" content="/assets/og-image.jpg">
+
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link href="feed.xml" type="application/rss+xml" rel="alternate" title="ewnit Last 10 blog posts" />
+
+  
+    <link type="text/css" rel="stylesheet" href="/assets/light.css">
+  
+</head>
+
+<body>
+  <main role="main">
+    <div class="grid grid-centered">
+      <div class="grid-cell">
+        <nav class="header-nav reveal">
+  <a href="/" class="header-logo" title="ewnit">ewnit</a>
+  <ul class="header-links">
+    <li>
+        <a href="/about" title="About me">
+          <span class="icon icon-android-happy"></span>
+        </a>
+      </li>
+    
+    
+    
+      <li>
+        <a href="https://github.com/ewnit" target="_blank" title="GitHub">
+          <span class="icon icon-social-github"></span>
+        </a>
+      </li>
+    
+    
+    
+    
+    
+      <li>
+        <a href="mailto:chenyr626@gmail.com" target="_blank" title="Email">
+          <span class="icon icon-at"></span>
+        </a>
+      </li>
+    
+    
+      <li>
+        <a href="/feed.xml" target="_blank" title="RSS">
+          <span class="icon icon-social-rss"></span>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+        <article class="article reveal">
+          <header class="article-header">
+            <h1>解决 Kernel driver not installed (rc=-1908)</h1>
+            <p></p>
+            <div class="article-list-footer">
+              <span class="article-list-date">
+                March 5, 2016
+              </span>
+              <span class="article-list-divider">-</span>
+              <span class="article-list-minutes">
+                
+                
+                  1 minute read
+                
+              </span>
+              <span class="article-list-divider">-</span>
+              <div class="article-list-tags">
+                
+                  <a href="/tag/装机">装机</a>
+                
+                  <a href="/tag/虚拟机">虚拟机</a>
+                
+              </div>
+            </div>
+          </header>
+
+          <div class="article-content">
+            <p>两次碰到过这个问题，第一次是系统刚装的时候，运行‘/etc/init.d/vboxdrv setup’的时候提示vboxdrv不存在。</p>
+
+<p>解决方法：</p>
+
+<ul>
+  <li>sudo apt-get install dkms gcc</li>
+  <li>sudo apt-get update</li>
+  <li>sudo apt-get install kernel-headers kernel-devel</li>
+  <li>su -C ‘/etc/init.d/vboxdrv setup’</li>
+</ul>
+
+<blockquote>
+  <p>参考：https://www.youtube.com/watch?v=6amaEW1XSFM</p>
+</blockquote>
+
+<p>第二次是昨天update系统之后，同样提示没有安装驱动，提示运行 ‘modprobe vboxdrv’
+但是输入此命令后提示 modprobe: FATAL: Module vboxdrv not found in directory /lib/modules/</p>
+
+<p>解决方法：</p>
+
+<ul>
+  <li>sudo apt-get install linux-headers-<code class="highlighter-rouge">uname -r</code></li>
+  <li>sudo dpkg-reconfigure virtualbox-dkms</li>
+  <li>sudo modprobe vboxdrv</li>
+</ul>
+
+<blockquote>
+  <p>参考：http://askubuntu.com/questions/205154/virtualbox-etc-init-d-vboxdrv-setup-issue</p>
+</blockquote>
+
+          </div>
+
+          <div class="article-share">
+            
+            <a href="" title="Share on Twitter" onclick="window.open('https://twitter.com/home?status=解决 Kernel driver not installed (rc=-1908) - /posts/fixvboxproblem ', 'newwindow', 'width=500, height=225'); return false;">
+              <span class="icon icon-social-twitter"></span>
+            </a>
+            <a href="" title="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=/posts/fixvboxproblem', 'newwindow', 'width=500, height=500'); return false;">
+              <span class="icon icon-social-facebook"></span>
+            </a>
+            <a href="" title="Share on Google+" onclick="window.open('https://plus.google.com/share?url=/posts/fixvboxproblem', 'newwindow', 'width=550, height=400'); return false;">
+              <span class="icon icon-social-googleplus"></span>
+            </a>
+          </div>
+
+          
+          <div class="ds-thread" data-thread-key="/posts/FixVBoxProblem" data-title="解决 Kernel driver not installed (rc=-1908)" data-url="/posts/fixvboxproblem"></div>
+            <script type="text/javascript">
+          var duoshuoQuery = {short_name:'ewnit'};
+            (function() {
+              var ds = document.createElement('script');
+              ds.type = 'text/javascript';ds.async = true;
+              ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+              ds.charset = 'UTF-8';
+              (document.getElementsByTagName('head')[0] 
+               || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+            </script>
+            <noscript>Please enable JavaScript to view the comments powered by duoshuo.</noscript>
+          
+        </article>
+        <footer class="footer reveal">
+  <p>
+  	Thanks for visiting~ XD
+  </p>
+  <p>
+    blog template for Jekyll built by
+    <a href="https://github.com/nielsenramon/chalk" target="_blank" title="Download Chalk">Nielsen Ramon</a>. This blog is maitain by <a href="/about" title="About me">ewnit</a>.
+  </p>
+</footer>
+
+      </div>
+    </div>
+  </main>
+  <script type="text/javascript" src="/assets/vendor.js"></script>
+<script type="text/javascript" src="/assets/application.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+<script>
+  WebFont.load({
+    google: {
+      families: ['Cormorant Garamond:700', 'Lato:300,400,700']
+    }
+  });
+</script>
+
+
+</body>
+</html>
